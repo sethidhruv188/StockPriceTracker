@@ -1,0 +1,50 @@
+name: Scheduled Branch Merges with PRs
+
+on:
+  schedule:
+    - cron: '25 18 3 7 *' # July 3, 2025, 2:25 PM EDT (18:25 UTC)
+    - cron: '30 18 3 7 *' # July 3, 2025, 2:30 PM EDT (18:30 UTC)
+    - cron: '34 17 4 7 *' # July 4, 2025, 1:34 PM EDT (17:34 UTC)
+    - cron: '9 22 5 7 *'  # July 5, 2025, 6:09 PM EDT (22:09 UTC)
+    - cron: '17 20 6 7 *' # July 6, 2025, 4:17 PM EDT (20:17 UTC)
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to create and merge PR for'
+        required: true
+        default: 'test1'
+
+jobs:
+  create-and-merge-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create and merge pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            BRANCH="${{ github.event.inputs.branch }}"
+            gh pr create --base main --head "$BRANCH" --title "Merge $BRANCH for verification" --body "Automated PR for $BRANCH merge"
+            gh pr merge --auto --merge "$BRANCH" -m "Merged $BRANCH for verification"
+          elif [ "${{ github.event.schedule }}" == "25 18 3 7 *" ]; then
+            gh pr create --base main --head test1 --title "Merge test1 branch for verification" --body "Automated PR for test1 merge"
+            gh pr merge --auto --merge test1 -m "Merged test1 branch for verification"
+          elif [ "${{ github.event.schedule }}" == "30 18 3 7 *" ]; then
+            gh pr create --base main --head test2 --title "Merge test2 branch for verification" --body "Automated PR for test2 merge"
+            gh pr merge --auto --merge test2 -m "Merged test2 branch for verification"
+          elif [ "${{ github.event.schedule }}" == "34 17 4 7 *" ]; then
+            gh pr create --base main --head feature/moving-average-csv --title "Merge moving average and CSV features" --body "Automated PR for moving average and CSV"
+            gh pr merge --auto --merge feature/moving-average-csv -m "Merged moving average and CSV storage features"
+          elif [ "${{ github.event.schedule }}" == "9 22 5 7 *" ]; then
+            gh pr create --base main --head feature/visualization --title "Merge visualization feature" --body "Automated PR for visualization"
+            gh pr merge --auto --merge feature/visualization -m "Merged visualization feature with Matplotlib"
+          elif [ "${{ github.event.schedule }}" == "17 20 6 7 *" ]; then
+            gh pr create --base main --head feature/readme --title "Merge README and documentation" --body "Automated PR for README"
+            gh pr merge --auto --merge feature/readme -m "Merged README and finalized documentation"
+          fi
