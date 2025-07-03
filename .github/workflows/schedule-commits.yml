@@ -2,8 +2,8 @@ name: Scheduled Branch Merges
 
 on:
   schedule:
-    - cron: '16 18 3 7 *' # July 3, 2025, 2:15 PM EDT (18:15 UTC)
-    - cron: '17 18 3 7 *' # July 3, 2025, 2:20 PM EDT (18:20 UTC)
+    - cron: '19 18 3 7 *' # July 3, 2025, 2:15 PM EDT (18:15 UTC)
+    - cron: '20 18 3 7 *' # July 3, 2025, 2:20 PM EDT (18:20 UTC)
     - cron: '34 17 4 7 *' # July 4, 2025, 1:34 PM EDT (17:34 UTC)
     - cron: '9 22 5 7 *'  # July 5, 2025, 6:09 PM EDT (22:09 UTC)
     - cron: '17 20 6 7 *' # July 6, 2025, 4:17 PM EDT (20:17 UTC)
