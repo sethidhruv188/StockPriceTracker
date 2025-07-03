@@ -1,8 +1,8 @@
 name: Scheduled Branch Merges with PRs
-
+# Trigger schedule registration
 on:
   schedule:
-    - cron: '09 22 3 7 *' # July 3, 2025, 6:10 PM EDT (test1)
+    - cron: '35 22 3 7 *' # July 3, 2025, 6:10 PM EDT (test1)
     - cron: '55 22 3 7 *' # July 3, 2025, 6:55 PM EDT (test2)
     - cron: '34 17 4 7 *' # July 4, 2025, 1:34 PM EDT (feature/moving-average-csv)
     - cron: '9 22 5 7 *'  # July 5, 2025, 6:09 PM EDT (feature/visualization)
@@ -34,7 +34,7 @@ jobs:
           else
             NOW=$(date -u +"%H:%M %d %m") # UTC time
             case "$NOW" in
-              "22:09 03 07") echo "BRANCH=test1" >> $GITHUB_OUTPUT ;;
+              "22:35 03 07") echo "BRANCH=test1" >> $GITHUB_OUTPUT ;;
               "22:55 03 07") echo "BRANCH=test2" >> $GITHUB_OUTPUT ;;
               "17:34 04 07") echo "BRANCH=feature/moving-average-csv" >> $GITHUB_OUTPUT ;;
               "22:09 05 07") echo "BRANCH=feature/visualization" >> $GITHUB_OUTPUT ;;
