@@ -36,7 +36,7 @@ A Python-based bot that automates real-time stock price tracking for financial a
 3. Run the script:
 
    ```bash
-   python stock_tracker.py
+   python StockPriceTracker.py
    ```
 
 ## Usage
