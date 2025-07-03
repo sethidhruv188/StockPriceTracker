@@ -15,6 +15,17 @@ def fetch_stock_data(ticker, start_date, end_date):
         print(f"Error fetching data: {e}")
         return None
 
+def calculate_moving_average(data, window=7):
+    """Calculate the 7-day moving average of closing prices."""
+    data['Moving_Average'] = data['Close'].rolling(window=window).mean()
+    return data
+
+def save_to_csv(data, ticker):
+    """Save stock data to a CSV file."""
+    filename = f"{ticker}_stock_data.csv"
+    data.to_csv(filename)
+    return filename
+
 def main():
     """Main function to run the stock price tracker."""
     ticker = input("Enter stock ticker (e.g., AAPL, MSFT, TSLA): ").upper()
@@ -23,5 +34,8 @@ def main():
 
     stock_data = fetch_stock_data(ticker, start_date, end_date)
     if stock_data is None:
-        return print(stock_data)
+        return
+    stock_data = calculate_moving_average(stock_data)
+    csv_file = save_to_csv(stock_data, ticker)
+    print(f"Data saved to {csv_file}")
     
