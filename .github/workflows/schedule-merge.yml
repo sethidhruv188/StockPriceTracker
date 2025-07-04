@@ -2,7 +2,6 @@ name: Scheduled Branch Merges with PRs
 
 on:
   schedule:
-    - cron: '0 0 4 7 *'   # July 3, 2025, 8:00 PM EDT (00:00 UTC July 4)
     - cron: '40 0 4 7 *'  # July 3, 2025, 8:40 PM EDT (00:40 UTC July 4)
     - cron: '34 17 4 7 *' # July 4, 2025, 1:34 PM EDT (17:34 UTC)
     - cron: '9 22 5 7 *'  # July 5, 2025, 6:09 PM EDT (22:09 UTC)
@@ -12,7 +11,7 @@ on:
       branch:
         description: 'Branch to create and merge PR for'
         required: true
-        default: 'test1'
+        default: 'test2'
 
 jobs:
   create-and-merge-pr:
@@ -27,16 +26,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
           CURRENT_TIME=$(date -u +"%Y-%m-%d %H:%M")
           echo "Current UTC time: $CURRENT_TIME"
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             BRANCH="${{ github.event.inputs.branch }}"
             gh pr create --base main --head "$BRANCH" --title "Merge $BRANCH for verification" --body "Automated PR for $BRANCH merge"
             gh pr merge --auto --merge "$BRANCH" -m "Merged $BRANCH for verification"
-          elif [[ "$CURRENT_TIME" > "2025-07-03 23:40" && "$CURRENT_TIME" < "2025-07-04 00:50" ]]; then
-            gh pr create --base main --head test1 --title "Merge test1 branch for verification" --body "Automated PR for test1 merge"
-            gh pr merge --auto --merge test1 -m "Merged test1 branch for verification"
           elif [[ "$CURRENT_TIME" > "2025-07-04 00:20" && "$CURRENT_TIME" < "2025-07-04 01:20" ]]; then
             gh pr create --base main --head test2 --title "Merge test2 branch for verification" --body "Automated PR for test2 merge"
             gh pr merge --auto --merge test2 -m "Merged test2 branch for verification"
