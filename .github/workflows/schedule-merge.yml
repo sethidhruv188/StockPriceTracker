@@ -31,17 +31,18 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             BRANCH="${{ github.event.inputs.branch }}"
             gh pr create --base main --head "$BRANCH" --title "Merge $BRANCH for verification" --body "Automated PR for $BRANCH merge"
-            gh pr merge --auto --merge "$BRANCH" -m "Merged $BRANCH for verification"
+            gh pr merge --merge "$BRANCH" -m "Merged $BRANCH for verification"
           elif [[ "$CURRENT_TIME" > "2025-07-04 00:20" && "$CURRENT_TIME" < "2025-07-04 01:20" ]]; then
             gh pr create --base main --head test2 --title "Merge test2 branch for verification" --body "Automated PR for test2 merge"
-            gh pr merge --auto --merge test2 -m "Merged test2 branch for verification"
+            gh pr merge --merge test2 -m "Merged test2 branch for verification"
           elif [[ "$CURRENT_TIME" > "2025-07-04 17:14" && "$CURRENT_TIME" < "2025-07-04 17:59" ]]; then
             gh pr create --base main --head feature/moving-average-csv --title "Merge moving average and CSV features" --body "Automated PR for moving average and CSV"
-            gh pr merge --auto --merge feature/moving-average-csv -m "Merged moving average and CSV storage features"
+            gh pr merge --merge feature/moving-average-csv -m "Merged moving average and CSV storage features"
           elif [[ "$CURRENT_TIME" > "2025-07-05 21:49" && "$CURRENT_TIME" < "2025-07-05 22:59" ]]; then
             gh pr create --base main --head feature/visualization --title "Merge visualization feature" --body "Automated PR for visualization"
-            gh pr merge --auto --merge feature/visualization -m "Merged visualization feature with Matplotlib"
+            gh pr merge --merge feature/visualization -m "Merged visualization feature with Matplotlib"
           elif [[ "$CURRENT_TIME" > "2025-07-06 19:57" && "$CURRENT_TIME" < "2025-07-06 20:57" ]]; then
             gh pr create --base main --head feature/readme --title "Merge README and documentation" --body "Automated PR for README"
-            gh pr merge --auto --merge feature/readme -m "Merged README and finalized documentation"
+            gh pr merge --merge feature/readme -m "Merged README and finalized documentation"
           fi
+          
