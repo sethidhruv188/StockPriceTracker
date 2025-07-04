@@ -1,4 +1,4 @@
-name: Scheduled Branch Merges with PRs
+name: Scheduled Branch Merges
 
 on:
   schedule:
@@ -9,12 +9,12 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Branch to create and merge PR for'
+        description: 'Branch to merge into main'
         required: true
         default: 'test2'
 
 jobs:
-  create-and-merge-pr:
+  merge-branch:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,27 +22,39 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create and merge pull request
+      - name: Merge branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
           CURRENT_TIME=$(date -u +"%Y-%m-%d %H:%M")
           echo "Current UTC time: $CURRENT_TIME"
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             BRANCH="${{ github.event.inputs.branch }}"
-            gh pr create --base main --head "$BRANCH" --title "Merge $BRANCH for verification" --body "Automated PR for $BRANCH merge"
-            gh pr merge --merge "$BRANCH" -m "Merged $BRANCH for verification"
+            git checkout "$BRANCH"
+            git checkout main
+            git merge --no-ff "$BRANCH" -m "Merged $BRANCH into main"
+            git push origin main
           elif [[ "$CURRENT_TIME" > "2025-07-04 00:20" && "$CURRENT_TIME" < "2025-07-04 01:20" ]]; then
-            gh pr create --base main --head test2 --title "Merge test2 branch for verification" --body "Automated PR for test2 merge"
-            gh pr merge --merge test2 -m "Merged test2 branch for verification"
+            git checkout test2
+            git checkout main
+            git merge --no-ff test2 -m "Merged test2 into main"
+            git push origin main
           elif [[ "$CURRENT_TIME" > "2025-07-04 17:14" && "$CURRENT_TIME" < "2025-07-04 17:59" ]]; then
-            gh pr create --base main --head feature/moving-average-csv --title "Merge moving average and CSV features" --body "Automated PR for moving average and CSV"
-            gh pr merge --merge feature/moving-average-csv -m "Merged moving average and CSV storage features"
+            git checkout feature/moving-average-csv
+            git checkout main
+            git merge --no-ff feature/moving-average-csv -m "Merged moving average and CSV storage features"
+            git push origin main
           elif [[ "$CURRENT_TIME" > "2025-07-05 21:49" && "$CURRENT_TIME" < "2025-07-05 22:59" ]]; then
-            gh pr create --base main --head feature/visualization --title "Merge visualization feature" --body "Automated PR for visualization"
-            gh pr merge --merge feature/visualization -m "Merged visualization feature with Matplotlib"
+            git checkout feature/visualization
+            git checkout main
+            git merge --no-ff feature/visualization -m "Merged visualization feature with Matplotlib"
+            git push origin main
           elif [[ "$CURRENT_TIME" > "2025-07-06 19:57" && "$CURRENT_TIME" < "2025-07-06 20:57" ]]; then
-            gh pr create --base main --head feature/readme --title "Merge README and documentation" --body "Automated PR for README"
-            gh pr merge --merge feature/readme -m "Merged README and finalized documentation"
+            git checkout feature/readme
+            git checkout main
+            git merge --no-ff feature/readme -m "Merged README and finalized documentation"
+            git push origin main
           fi
           
