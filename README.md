@@ -49,7 +49,9 @@ A Python-based bot that automates real-time stock price tracking for financial a
 
 ## Sample Output
 
-![Sample Plot](NFLX_stock_plot.png)\## Relevance to FinTech
+![Sample Plot](NFLX_stock_plot.png)\
+
+## Relevance to FinTech
 
 This project demonstrates skills in **data analytics**, **Python**, and **automation**, aligning with financial services needs for real-time trading data analysis and low-latency systems, such as those used at Morgan Stanley.
 
@@ -61,4 +63,4 @@ This project demonstrates skills in **data analytics**, **Python**, and **automa
 
 ## Author
 
-Dhruv Sethi | LinkedIn | GitHub
+Dhruv Sethi | [LinkedIn](https://www.linkedin.com/in/dhruv-sethi-56b079280/) | [GitHub](www.github.com/sethidhruv188)
